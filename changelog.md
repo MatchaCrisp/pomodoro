@@ -15,3 +15,10 @@
  ## new
   * add sass
   * add material ui
+  * functioning timer
+  * auto session/break swap
+  * proper "XX:XX" time format on display
+  * placeholder alarm
+
+## todo
+ * style (SCSS & material ui)

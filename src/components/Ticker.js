@@ -13,12 +13,12 @@ const Ticker=props=>{
                 {props.label}
             </p>
             <button onClick={props.handleInc}
-                id={`${props.id}-increment`} />
+                id={`${props.id}-increment`}>Inc</button>
             <p id={`${props.id}-length`}>
                 {props.value}
             </p>
             <button onClick={props.handleDec}
-                id={`${props.id}-decrement`} />
+                id={`${props.id}-decrement`}>Dec</button>
         </div>
     )
 }
