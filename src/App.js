@@ -1,6 +1,7 @@
 import React, {useState,useEffect,useRef} from 'react';
 import Ticker from './components/Ticker';
 import Display from './components/Display';
+import {useIsFirstRender} from './hooks/useIsFirstRender';
 const App = () => {
     //session/break lengths (in minutes)
     const [seshVal,setSeshVal]=useState(25);
@@ -8,9 +9,6 @@ const App = () => {
 
     //session or break, start with a session
     const [isSesh,setIsSesh]=useState(true);
-
-    //whether timer is running, start with paused
-    const [isPause,setIsPause]=useState(true);
 
     //current timer value (in s)
     const [curr,setCurr]=useState(1500);
@@ -22,36 +20,42 @@ const App = () => {
     //audio reference
     const audio = useRef(null);
 
+    //first render state
+    const isFR=useIsFirstRender();
     //object storing all functions related to changing timer lengths
     const timeChange={
         //increment session length by 1 if is paused and result would not go over 60
         handleSInc:()=>{        
-            if (isPause && seshVal+1<=60) 
+            if (basis===-1 && seshVal+1<=60) 
                 setSeshVal(seshVal+1);
         },
         //decrement session length by 1 if is paused and result would not go under 0
         handleSDec:()=>{        
-            if (isPause && seshVal-1>0) 
+            if (basis===-1 && seshVal-1>0) 
                 setSeshVal(seshVal-1);
         },
         //increment break length by 1 if is paused and result would not go over 60
         handleBInc:()=>{        
-            if (isPause && breakVal+1<=60)
+            if (basis===-1 && breakVal+1<=60)
                 setBreakVal(breakVal+1);
         },
         //decrement break length by 1 if is paused and result would not go under 0
         handleBDec:()=>{        
-            if (isPause && breakVal-1>0)
+            if (basis===-1 && breakVal-1>0)
                 setBreakVal(breakVal-1);
         }
     }
 
-    //changes ispause state
-    const handleTimerAction=()=>setIsPause(!isPause);
+    //changes basis state
+    const handleTimerAction=()=>{
+        if (basis===-1) 
+            setBasis(new Date());
+        else 
+            setBasis(-1);
+    };
 
     //handles complete reset
     const handleReset=()=>{
-        setIsPause(true);
         setIsSesh(true);
         setSeshVal(25);
         setBreakVal(5);
@@ -72,60 +76,57 @@ const App = () => {
         return (minute<10?`0${minute}`:minute)+':'+(second<10?`0${second}`:second);
     };
 
+
     //counts down timer value
-    const calc=()=>setCurr(curr-~~((Date.now()-basis)/1000));
+    const calc=(rem,base)=>setCurr(rem-~~((Date.now()-base)/1000));
 
-    ///handles start/pause timer action by setting a time basis to compare against
     useEffect(()=>{
-        //stop timer
-        if (isPause)
-            setBasis(-1);
-        //start timer
-        else
-            setBasis(new Date());
-    },[isPause]);
-
-    //start a countdown when basis is set
-    useEffect(()=>{
-        if (basis===-1) {
-            //important to clear interval first
-            clearInterval(intRef);
-            setIntRef(null);
-        }
-        else {
-            setIntRef(setInterval(calc,1000));
-        }
+        if (isFR)
+            return;
+        
+            if (basis===-1) {
+                clearInterval(intRef);
+                setIntRef(null);
+            }
+            else {
+                setIntRef(setInterval(()=>calc(curr,basis),1000));
+            }
     },[basis]);
-
     //when session value changes, check if necessary to change curr timer value
     useEffect(()=>{
+        if (isFR)
+            return;
+        console.log('seshval.breakval,issesh state change triggered useeffect');
+        console.log(`issesh ${isSesh}, seshVal ${seshVal}, breakVal ${breakVal}`);
         if (isSesh)
             setCurr(seshVal*60);
-    },[seshVal]);
-
-    //when break value changes, check if necessary to change curr timer value
-    useEffect(()=>{
-        if (!isSesh)
+        else
             setCurr(breakVal*60);
-    },[breakVal]);
+    },[isSesh,seshVal,breakVal]);
 
+            
+    const handleSwap=currTimerState=>{
+        setIsSesh(!currTimerState);
+    }
     //when curr value changes, check if necessary to swap session/break
     useEffect(()=>{
+        if (isFR)
+            return;
 
-        if (curr<=0) {
-            //pause timer
-            if (audio.current!==null) {
-                audio.current.currentTime=0;
-                audio.current.play();
-            }
-            setTimeout(setIsSesh(!isSesh),1000);
+            console.log('curr state change triggered useeffect');
+            console.log(`curr ${curr}`);
+        if (curr===5) {
+            //play animation
+        }
+        else if (curr===0) {
+            audio.current.currentTime=0;
+            audio.current.play();
+        }
+        else if (curr<0) {
+            handleSwap(isSesh);
         }
     },[curr]);
 
-    //when session/break changes 
-    useEffect(()=>{
-        setCurr(isSesh?seshVal*60:breakVal*60);
-    },[isSesh]);
     return (
         <div>
             <Ticker id='session' 
@@ -139,7 +140,7 @@ const App = () => {
                 handleInc={timeChange.handleBInc}
                 handleDec={timeChange.handleBDec}/>
             <Display isSesh={isSesh}
-                isPause={isPause}
+                isPause={basis===-1}
                 value={clock(curr)}
                 handleTimerAction={handleTimerAction}
                 handleReset={handleReset} />
@@ -147,7 +148,7 @@ const App = () => {
                 className="alarmSound" 
                 id="beep" 
                 ref={audio}
-                src="./alarms/neverIntro.mp3" />
+                src="https://github.com/MatchaCrisp/pomodoro/blob/main/src/alarms/neverIntro.mp3?raw=true" />
         </div>
     )
 }
