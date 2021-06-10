@@ -21,5 +21,18 @@
 
 ## todo
  * style (SCSS & material ui)
- * remove ispause state instead alter basis directly
  * auto session/break swap
+ * finish timer class
+
+ # v0.7
+ June 9th 2021
+ ## new
+  * finish auto session/break swap
+  * finish accurate, self-correcting timer
+  * added audio alarm 
+  * passes all FCC tests
+
+## todo
+ * style(SCSS & material ui)
+ * animation at 5 second  
+ * possible new alarm sr  
