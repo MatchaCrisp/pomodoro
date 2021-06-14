@@ -2,7 +2,9 @@ import React, {useState,useEffect,useRef} from 'react';
 import Ticker from './components/Ticker';
 import Display from './components/Display';
 import useIsFirstRender from './hooks/useIsFirstRender';
-
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 const App = () => {
     //session/break lengths (in minutes)
     const [seshVal,setSeshVal]=useState(25);
@@ -178,20 +180,36 @@ const App = () => {
     },[curr]);
 
     return (
-        <div>
-            <Ticker id='session' 
-                label='session'
-                value={seshVal}
-                handleInc={timeChange.handleSInc}
-                handleDec={timeChange.handleSDec}/>
-            <Ticker id='break' 
-                label='break'
-                value={breakVal}
-                handleInc={timeChange.handleBInc}
-                handleDec={timeChange.handleBDec}/>
+        <Box height="100%" width="100%" id="bg">
+        <Grid
+                container
+                direction="column"
+                justify="center"
+                alignItems="center"
+                spacing={0}
+                id="app">
+            <Grid
+                container
+                spacing={0}
+                direction="row"
+                justify="center"
+                alignItems="center"
+                id="ctrl">
+                <Ticker id='session' 
+                    label='session'
+                    value={seshVal}
+                    handleInc={timeChange.handleSInc}
+                    handleDec={timeChange.handleSDec}/>
+                <Ticker id='break' 
+                    label='break'
+                    value={breakVal}
+                    handleInc={timeChange.handleBInc}
+                    handleDec={timeChange.handleBDec}/>
+            </Grid>
             <Display isSesh={isSesh}
                 isPause={timeItems.expTimeLapse===0}
                 value={clock(curr)}
+                rawVal={curr}
                 handleTimerAction={handleTimerAction}
                 handleReset={handleReset} />
             <audio 
@@ -199,7 +217,8 @@ const App = () => {
                 id="beep" 
                 ref={audio}
                 src="https://github.com/MatchaCrisp/pomodoro/blob/main/src/alarms/neverIntro.mp3?raw=true" />
-        </div>
+        </Grid>
+        </Box>
     )
 }
 export default App;
