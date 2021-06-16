@@ -36,3 +36,13 @@
  * style(SCSS & material ui)
  * animation at 5 second  
  * possible new alarm sr  
+
+# v1.0
+June 16th 2021
+## new
+ * style (SCSS & mui)
+ * 5s animation
+ * refactor/cleanup
+ * update readme
+ * publish
+ * new bg image

@@ -1,20 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
+$warn-txt-col:darkred;
+$reg-txt-col:antiquewhite;
 @keyframes pulse1 {
   0% {
     font-size:1.8rem;
-    color:red;
+    color:$warn-txt-col;
     opacity:30%;
   }
   80% {
     font-size:1.5rem;
-    color:black;
+    color:$reg-txt-col;
     opacity:0%;
   }
   100% {
     font-size:1.5rem;
-    color:black;
+    color:$reg-txt-col;
     opacity:0%;
   }
 }
@@ -22,36 +24,48 @@
 @keyframes pulse2 {
   0% {
     font-size:1.7rem;
-    color:red;
+    color:$warn-txt-col;
     opacity:30%;
   }
   80% {
     font-size:1.5rem;
-    color:black;
+    color:$reg-txt-col;
     opacity:0%;
   }
   100% {
     font-size:1.5rem;
-    color:black;
+    color:$reg-txt-col;
     opacity:0%;
   }
 }
 
-@keyframes pulse1 {
+@keyframes pulse3 {
   0% {
     font-size:1.6rem;
-    color:red;
+    color:$warn-txt-col;
     opacity:30%;
   }
   80% {
     font-size:1.5rem;
-    color:black;
+    color:$reg-txt-col;
     opacity:0%;
   }
   100% {
     font-size:1.5rem;
-    color:black;
+    color:$reg-txt-col;
     opacity:0%;
+  }
+}
+
+@keyframes shift {
+  0% {
+    color:$warn-txt-col;
+  }
+  80% {
+    color:$reg-txt-col;
+  }
+  100% {
+    color:$reg-txt-col;
   }
 }
 * {
@@ -67,19 +81,13 @@ html {
 #root {
   height:100vh;
   width:100vw;
-  //background-image: url('./img/crissCross.jpg');
-  //background-size: cover;
+  
 }
-
-#app{
-  border:3px solid black;
+#app {
   height:100%;
 }
 
 #bg {
-  border:3px solid red;
-}
-
-#ctrl {
-  border:3px solid blue;
+  background-image: url('./img/nightsky.jpg');
+  background-size: cover;
 }

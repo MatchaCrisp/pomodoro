@@ -2,17 +2,11 @@ import React from 'react';
 import {Button, Typography} from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import {makeStyles} from '@material-ui/core/styles';
+import useTxtStyles from '../hooks/useTxtStyles';
+import { ThemeProvider } from '@material-ui/styles';
+import buttTheme from '../Themes/buttTheme';
 
 const useStyles=makeStyles({
-    digital: {
-        fontFamily:'Orbitron, sans-serif',
-        fontSize:'1.5rem',
-        margin:'10px 0 10px 0'
-    },
-    label: {
-        fontFamily:'Roboto, sans-serif',
-        marginBottom:'10px'
-    },
     butt: {
         fontSize:'0.75rem',
         margin:'0 10px 0 10px'
@@ -52,6 +46,9 @@ const useStyles=makeStyles({
         marginLeft:'auto',
         marginRight:'auto',
         animation:'pulse3 1s infinite'
+    },
+    shifter: {
+        animation:'shift 1s infinite'
     }
 
 });
@@ -63,29 +60,32 @@ const useStyles=makeStyles({
 //handleReset=reset whole thing click event
 const Display = props => {
     const classes=useStyles(props);
+    const txtClasses=useTxtStyles(props);
     return (
         <Box align="center" id="disp">
-            <Typography id="timer-label" className={classes.label}>{props.isSesh?'session':'break'}</Typography>
+            <Typography id="timer-label" className={txtClasses.label}>{props.isSesh?'session':'break'}</Typography>
             <Box className={classes.time}>
-                <Typography className={`${(!props.isPause&&props.rawVal<=5)?classes.pulser1:classes.inactive} ${classes.digital}`}>{props.value}</Typography>
-                <Typography className={`${(!props.isPause&&props.rawVal<=5)?classes.pulser2:classes.inactive} ${classes.digital}`}>{props.value}</Typography>
-                <Typography className={`${(!props.isPause&&props.rawVal<=5)?classes.pulser3:classes.inactive} ${classes.digital}`}>{props.value}</Typography>
-                <Typography className={classes.digital} id="time-left">{props.value}</Typography>
+                <Typography className={`${(!props.isPause&&props.rawVal<=5)?classes.pulser1:classes.inactive} ${txtClasses.digital}`}>{props.value}</Typography>
+                <Typography className={`${(!props.isPause&&props.rawVal<=5)?classes.pulser2:classes.inactive} ${txtClasses.digital}`}>{props.value}</Typography>
+                <Typography className={`${(!props.isPause&&props.rawVal<=5)?classes.pulser3:classes.inactive} ${txtClasses.digital}`}>{props.value}</Typography>
+                <Typography className={`${(!props.isPause&&props.rawVal<=5)?classes.shifter:''} ${txtClasses.digital}`} id="time-left">{props.value}</Typography>
             </Box>
-            <Button 
-                id="start_stop" 
-                onClick={props.handleTimerAction}
-                variant="contained"
-                disableElevation
-                size="small"
-                className={classes.butt}>{props.isPause?'start':'pause'}</Button>
-            <Button 
-                id="reset" 
-                onClick={props.handleReset}
-                variant="outlined"
-                disableElevation
-                size="small"
-                className={classes.butt}>reset</Button>
+            <ThemeProvider theme={buttTheme}>
+                <Button 
+                    id="start_stop" 
+                    onClick={props.handleTimerAction}
+                    variant="contained"
+                    disableElevation
+                    className={classes.butt}
+                    color="primary">{props.isPause?'start':'pause'}</Button>
+                <Button 
+                    id="reset" 
+                    onClick={props.handleReset}
+                    variant="outlined"
+                    disableElevation
+                    className={classes.butt}
+                    color="primary">reset</Button>
+            </ThemeProvider>
         </Box>
     )
 }
