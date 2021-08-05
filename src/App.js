@@ -216,7 +216,7 @@ const App = () => {
                 className="alarmSound" 
                 id="beep" 
                 ref={audio}
-                src="https://github.com/MatchaCrisp/pomodoro/blob/main/src/alarms/neverIntro.mp3?raw=true" />
+                src="https://github.com/MatchaCrisp/pomodoro/blob/main/src/alarms/chime.mp3?raw=true" />
         </Grid>
         </Box>
     )
