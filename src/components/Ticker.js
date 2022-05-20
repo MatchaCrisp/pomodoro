@@ -1,11 +1,17 @@
+// external
+// react
 import React from 'react';
+// material ui
 import {IconButton, Typography} from '@material-ui/core';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Box from '@material-ui/core/Box';
+import { ThemeProvider } from '@material-ui/styles';
+
+// internal
+// mui style/theme
 import useTxtStyles from '../hooks/useTxtStyles';
 import buttTheme from '../Themes/buttTheme';
-import { ThemeProvider } from '@material-ui/styles';
 
 //needs from props
 //id=string: used for setting id of component elements (therefore must be unique)
@@ -13,6 +19,10 @@ import { ThemeProvider } from '@material-ui/styles';
 //value=int:displayed value of the component
 //handleInc=fn():increment displayed value
 //handledec=fn():decrement displayed value
+
+// displays a number and up/down arrow
+// up increments number
+// down decrements number
 const Ticker=props=>{  
     const txtClasses=useTxtStyles(props);
     return (

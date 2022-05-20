@@ -1,11 +1,19 @@
+// external
+// react
 import React from 'react';
+
+// material ui
 import {Button, Typography} from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import {makeStyles} from '@material-ui/core/styles';
-import useTxtStyles from '../hooks/useTxtStyles';
 import { ThemeProvider } from '@material-ui/styles';
-import buttTheme from '../Themes/buttTheme';
 
+// internal
+// mui theme/styles
+import buttTheme from '../Themes/buttTheme';
+import useTxtStyles from '../hooks/useTxtStyles';
+
+// css
 const useStyles=makeStyles({
     butt: {
         fontSize:'0.75rem',
@@ -58,6 +66,8 @@ const useStyles=makeStyles({
 //value=string:time left
 //handleTimerAction=fn():start/pause click event
 //handleReset=reset whole thing click event
+
+// displays a time in mm:ss format, ticks down when started.
 const Display = props => {
     const classes=useStyles(props);
     const txtClasses=useTxtStyles(props);

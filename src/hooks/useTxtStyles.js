@@ -1,5 +1,8 @@
+// external
+// material ui
 import {makeStyles} from'@material-ui/core/styles';
 
+// sets styles for component
 const useStyles=makeStyles({
     digital: {
         fontFamily:'Orbitron, sans-serif',

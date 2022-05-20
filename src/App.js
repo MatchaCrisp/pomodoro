@@ -1,10 +1,21 @@
+// external
+// react
 import React, {useState,useEffect,useRef} from 'react';
-import Ticker from './components/Ticker';
-import Display from './components/Display';
-import useIsFirstRender from './hooks/useIsFirstRender';
-import Container from '@material-ui/core/Container';
+
+// material ui
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
+
+// internal
+// components
+import Ticker from './components/Ticker';
+import Display from './components/Display';
+// hooks
+import useIsFirstRender from './hooks/useIsFirstRender';
+
+// app that renders two tickers, one for break and one for productive time
+// and one display that shows the timer countdown and two buttons: start/pause and reset 
+// default is 25 min work: 5 min break
 const App = () => {
     //session/break lengths (in minutes)
     const [seshVal,setSeshVal]=useState(25);

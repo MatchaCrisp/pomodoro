@@ -1,5 +1,8 @@
+// external
+// material ui
 import { createMuiTheme } from "@material-ui/core";
 
+// change mui color palette
 const buttTheme=createMuiTheme({
     palette:{
         primary:{
